@@ -1,0 +1,3 @@
+[submodule "servers/chroma-mcp"]
+	path = servers/chroma-mcp
+	url = https://github.com/chroma-core/chroma-mcp.git
