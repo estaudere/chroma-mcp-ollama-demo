@@ -156,9 +156,10 @@ async def chroma_get_memories(
     category: Optional[str] = None,
     limit: Optional[int] = None,
     offset: Optional[int] = None,
-    include: Optional[List[str]] = ["documents", "metadatas"]
+    include: Optional[List[str]] = ["documents", "metadatas"],
+    where_document: Optional[Dict] = None
 ) -> Dict:
-    """Get all memories.
+    """Get all memories. You can also optionally filter by category and document content.
     
     Args:
         category: Optional category to filter memories by
@@ -166,6 +167,9 @@ async def chroma_get_memories(
         offset: Optional number of memories to skip before returning results
         include: Optional list of what to include in response. Can contain any of:
                 ["documents", "embeddings", "metadatas", "distances"]
+        where_document: Optional document content filters, using operators like:
+                       {"$contains": "search term"} - Documents containing the term
+                       {"$not_contains": "term"} - Documents not containing the term
     
     Returns:
         Dictionary containing matching memories and their metadata
@@ -177,6 +181,7 @@ async def chroma_get_memories(
         
         return collection.get(
             where=where_filter,
+            where_document=where_document,
             limit=limit,
             offset=offset,
             include=include
@@ -184,6 +189,32 @@ async def chroma_get_memories(
     except Exception as e:
         raise Exception(f"Failed to get memories: {str(e)}") from e
 
+@mcp.tool()
+async def chroma_delete_memory(
+    ids: List[str]
+) -> str:
+    """Delete specific memories from the 'brain' collection by their IDs.
+    
+    Args:
+        ids: List of memory IDs to delete
+        
+    Returns:
+        A confirmation message indicating the number of memories deleted
+        
+    Raises:
+        ValueError: If 'ids' is empty
+        Exception: If the deletion operation fails
+    """
+    if not ids:
+        raise ValueError("The 'ids' list cannot be empty.")
+
+    client = get_chroma_client()
+    try:
+        collection = client.get_or_create_collection("brain")
+        collection.delete(ids=ids)
+        return f"Successfully deleted {len(ids)} memories from the brain collection. Note: Non-existent IDs are ignored by ChromaDB."
+    except Exception as e:
+        raise Exception(f"Failed to delete memories: {str(e)}") from e
 
 
 ##### Collection Tools #####
