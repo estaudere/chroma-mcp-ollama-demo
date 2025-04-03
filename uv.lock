@@ -106,6 +106,7 @@ dependencies = [
     { name = "ollama" },
     { name = "python-dotenv" },
     { name = "requests" },
+    { name = "rich" },
 ]
 
 [package.metadata]
@@ -115,6 +116,7 @@ requires-dist = [
     { name = "ollama", specifier = ">=0.4.7" },
     { name = "python-dotenv", specifier = ">=1.1.0" },
     { name = "requests", specifier = ">=2.32.3" },
+    { name = "rich", specifier = ">=14.0.0" },
 ]
 
 [[package]]

@@ -8,9 +8,19 @@ async def main():
         config = json.load(f)
 
     mcp_servers = config.get('mcpServers', {})
+    tool_descriptions = config.get('tool_descriptions', None)
+    client_config = config.get('ollama', {})
 
-    model = config.get('ollama', {}).get('model', 'llama3.1:8b-instruct-q3_K_M')
-    ollama_client = OllamaMCPClient(model)
+    # add tool descriptions to system prompt
+    if tool_descriptions:
+        system_prompt = client_config.get('system_prompt', '')
+        system_prompt += "\n\nHere are more usage details about common tools you may use:\n"
+        for mcp_name, mcp_config in mcp_servers.items():
+            for tool_name, tool_description in tool_descriptions[mcp_name].items():
+                system_prompt += f"{mcp_name}_{tool_name}: {tool_description}\n"
+        client_config['system_prompt'] = system_prompt
+
+    ollama_client = OllamaMCPClient(**client_config)
 
     try: 
         for server_name, server_config in mcp_servers.items():
