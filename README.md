@@ -1,10 +1,22 @@
 # chroma-mcp-ollama-demo
 
-This is a demo app for a simple memory MCP with Chroma and an Ollama client. Run an AI assistant with memory locally!
+This is a demo app for a simple memory MCP with Chroma and an Ollama client. Run an AI chat with memory locally!
 
 ## Quick Start
 
-Make sure you have `uv` installed and run `uv install` at the project root. When you have Ollama installed, ensure it is running and then start both the client and MCP server with `uv run main.py`.
+Make sure you have [uv](https://docs.astral.sh/uv/#installation) installed and run `uv install` at the project root. When you have [Ollama](https://ollama.com/) installed, ensure it is running and then start both the client and MCP server with `uv run main.py`.
+
+```
+> What did I eat for breakfast today?
+
+I'm sorry but I don't have any information about what you had for breakfast. Would you like 
+to tell me so I can remember it?
+
+> I had scrambled eggs!
+
+I've got that down. You had scrambled eggs for breakfast. Would you like to talk about      
+what's next?
+```
 
 ## Configuration
 
@@ -49,7 +61,7 @@ I've added a "hooks" capability to the client as well. You can control this with
 }
 ```
 
-This was an attempt to make the small LLMs on Ollama interpret user commands like "remember x information" better with the original Chroma MCP server, but I found that just simplifying the tool calling worked way better.
+This was an attempt to make the small LLMs on Ollama interpret user queries better with the original Chroma MCP server (by having an intervention before or after that encourages the LLM to save/recall information), but I found that just simplifying the tool calling worked way better.
 
 ### More tool descriptions
 
@@ -69,15 +81,3 @@ The config also accepts more tool descriptions, to provide further hints (beyond
 ```
 
 Just make sure those tools actually exist in the given server! This was also an attempt to force the client LLMs to understand which tools to call in response to user commands/queries, but once again I found ensuring the tools are simpler and natively easier to understand (conceptually, by application) worked better than this.
-
----
-
-# TODO
-
-- [x] implement persistent messages (in one context window, keep memory)
-- [x] implement feedback as model is being loaded/processing query (UI/UX)
-- [x] implement "hooks" to save information before/after generation (requires another API call with user-specified prompt?)
-- [ ] async generation + streaming?
-- [x] add styling with rich
-- [x] check if ollama running before starting application
-- [x] save system prompt

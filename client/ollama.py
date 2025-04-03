@@ -91,8 +91,8 @@ class OllamaMCPClient():
                 tools=self.tools,
             )
 
-            rprint(f"[dim][bold]Response:[/bold] {response.message.content}[/dim]")
-            rprint(f"[dim][bold]Tool calls:[/bold] {response.message.tool_calls}[/dim]")
+            # rprint(f"[dim][bold]Response:[/bold] {response.message.content}[/dim]")
+            # rprint(f"[dim][bold]Tool calls:[/bold] {response.message.tool_calls}[/dim]")
 
             messages.append({
                 "role": "assistant",
@@ -109,7 +109,7 @@ class OllamaMCPClient():
                 tool_args = tool.function.arguments
                 
                 # execute tool call
-                rprint(f"[dim bold]Executing tool {tool_name} with args {tool_args}[/]")
+                rprint(f"[dim]Executing tool [bold]{tool_name}[/bold] with args {tool_args}[/]")
                 result = await self.session.call_tool(tool_name, dict(tool_args))
                 
                 # add tool response to messages for context
@@ -120,8 +120,8 @@ class OllamaMCPClient():
                 })
                 
                 # debug info only printed to console, not returned to user
-                if response.message.content:
-                    rprint(f"[dim]response content: {response.message.content}[/dim]")
+                # if response.message.content:
+                #     rprint(f"[dim]response content: {response.message.content}[/dim]")
                 rprint(f"[dim]tool result: {result.content[0].text}[/dim]")
 
         return messages
