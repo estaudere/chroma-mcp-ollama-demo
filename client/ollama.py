@@ -162,8 +162,8 @@ class OllamaMCPClient():
                     "content": query
                 })
 
-                with Status("Thinking...", spinner="dots") as status:
-                    response = await self.process_query(messages)
+                # with Status("Thinking...", spinner="dots") as status:
+                response = await self.process_query(messages)
                 rprint(Markdown(response[-1]['content']))
                 messages = response
 

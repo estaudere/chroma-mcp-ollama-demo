@@ -12,3 +12,6 @@ dependencies = [
     "requests>=2.32.3",
     "rich>=14.0.0",
 ]
+
+[tool.uv.workspace]
+members = ["servers/chroma-memory-mcp"]

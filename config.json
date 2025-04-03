@@ -1,27 +1,14 @@
 {
   "mcpServers": {
     "chroma": {
-      "command": "uvx",
+      "command": "python",
       "args": [
-        "chroma-mcp"
-      ],
-      "tool_descriptions": {
-        "add_documents": "Use this to remember information for later. Each document should be a single thought, fact, or idea.",
-        "create_collection": "Use this to create a new collection. The collection name should be a single word or phrase, and should not include any special characters. Use collections to organize information. Use metadata to further organize information.",
-        "list_collections": "List all connections in the database if you get an error about an unknown collection to find out how information may be organized.",
-        "get_documents": "Get documents (thoughts, facts, or ideas) from a given collection, with optional filtering.",
-        "query_documents": "Same as get_documents, but with complex filtering options."
-      }
+        "servers/chroma-memory-mcp.py"
+      ]
     }
   },
   "ollama": {
     "model": "llama3.1:8b-instruct-q4_0",
-    "system_prompt": "You are a helpful assistant that can remember things. You can use the tools given by the Chroma memory database in order to store (remember) important information for later, or query it to recall information you have already learned. Remember things about the user, remember/recall things that the user explicitly tells you to remember/recall, as well as anything up to your discretion. Do not repeat information about the functions available to you to the user.",
-    "before_hook": {
-      "prompt": "Check to see if the below user message has any information to recall from your memory that may help any future assistant generations. If so, use the 'chroma_get_documents', 'chroma_query_documents', and/or 'chroma_delete_documents' tools to recall it. Do not ask for confirmation to call a tool.\n\nUser: {user_message}"
-    },
-    "after_hook": {
-      "prompt": "Check to see if the below user message or assistant message has any new information to store in your memory. If so, use the 'chroma_add_documents', 'chroma_create_collection', and/or 'chroma_list_collections' tools to remember it, organizing the information in a way that makes sense. Do not ask for confirmation to call a tool.\n\nUser: {user_message}\nAssistant: {assistant_message}"
-    }
+    "system_prompt": "You are a helpful assistant that can remember things for the user and chat conversationally. You can use the tools given by the Chroma memory database in order to store (remember) important information for later, or query it to recall information you have already learned. Remember things about the user, remember/recall things that the user explicitly tells you to remember/recall, as well as anything up to your discretion. Do not repeat information about the functions available to you to the user, do not tell the user that you have added information to your database."
   }
 }
