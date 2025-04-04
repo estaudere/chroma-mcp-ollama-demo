@@ -61,7 +61,7 @@ I've added a "hooks" capability to the client as well. You can control this with
 }
 ```
 
-This was an attempt to make the small LLMs on Ollama interpret user queries better with the original Chroma MCP server (by having an intervention before or after that encourages the LLM to save/recall information), but I found that just simplifying the tool calling worked way better.
+This was an attempt to make the small LLMs on Ollama interpret user queries better with the original Chroma MCP server (by having an intervention before or after that encourages the LLM to save/recall information), but I found that just simplifying the tool calling worked way better (plus it's faster!).
 
 ### More tool descriptions
 
@@ -81,3 +81,9 @@ The config also accepts more tool descriptions, to provide further hints (beyond
 ```
 
 Just make sure those tools actually exist in the given server! This was also an attempt to force the client LLMs to understand which tools to call in response to user commands/queries, but once again I found ensuring the tools are simpler and natively easier to understand (conceptually, by application) worked better than this.
+
+## Future Directions
+
+- Further assistant integration, e.g. every 10 minutes checking to see if there's anything to recall and proactively alerting the user if so
+- Using the Chroma MCP as a fuzzy API for Chroma Cloud, e.g. allowing users to filter their documents with natural language, or using Claude or Anthropic to view 
+- Benchmarking recall for assistants, specifically for memory — do they remember the right things & know how to filter for them later? Beyond embedding-based RAG, but also Chroma specific (human-in-the-loop)
